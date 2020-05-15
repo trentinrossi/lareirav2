@@ -7,19 +7,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.lareira.model.TipoUniao;
-import br.com.lareira.service.TipoUniaoService;
+import br.com.lareira.model.Endereco;
+import br.com.lareira.service.EnderecoService;
 
 @RestController
-@RequestMapping(value = "/tipos-uniao")
-public class TipoUniaoResource {
+@RequestMapping(value = "/enderecos")
+public class EnderecoResource {
 
     @Autowired
-    private TipoUniaoService service;
+    private EnderecoService service;
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> find(@PathVariable Long id) {
-        TipoUniao obj = service.buscar(id);
+        Endereco obj = service.buscar(id);
         return ResponseEntity.ok().body(obj);
     }
 }
