@@ -7,28 +7,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
 @Data
 @Entity
-public class Filho implements Serializable {
+public class PessoaFisica implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nome;
-    private String sexo;
-    private LocalDate dataNascimento;
+    private String id;
     
-    @JsonManagedReference
-    @ManyToOne
-    @JoinColumn(name = "id_casal")
-    private Casal casal;
+    private String nome;
+    private String sobrenome;
+    private LocalDate dataNascimento;
+    private String profissao;
+    private String telCelular;
+    private String email;
+    private String problemaSaude;
 }

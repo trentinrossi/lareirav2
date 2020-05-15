@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -27,49 +28,37 @@ public class Casal implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCasal;
-    private String maridoNome;
-    private String maridoSobrenome;
-    private LocalDate maridoDataNascimento;
-    private String maridoProfissao;
-    private String maridoTelCelular;
-    private String maridoEmail;
-    private String maridoProblemaSaude;
-    private String esposaNome;
-    private String esposaSobrenome;
-    private LocalDate esposaDataNascimento;
-    private String esposaProfissao;
-    private String esposaTelCelular;
-    private String esposaEmail;
-    private String esposaProblemaSaude;
-    private String casalFoneFixo;
-    private String casalEnderecoCep;
-    private String casalEnderecoRua;
-    private String casalEnderecoNumero;
-    private String casalEnderecoBairro;
-    private String casalEnderecoCidade;
-    private String casalEnderecoEstado;
-    private LocalDate casalDataUniao;
-    private Integer casalNumeroFicha;
-    private String casalMemorando;
+    private Long id;
+    private Integer numeroFicha;
+    private String foneFixo;
+    private LocalDate dataUniao;
+    private String memorando;
     @Lob
-    private byte[] casalFoto;
+    private byte[] foto;
 
     @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "id_lareira")
     private Lareira lareira;
 
-    @JsonBackReference
-    @OneToMany(mappedBy = "casal") // Nome do atributo do outro lado
-    private List<Filho> filhos = new ArrayList<>();
-
-    @ManyToOne
-    @JoinColumn(name = "id_casalPadrinho")
-    private Casal casalPadrinho;
-
     @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "id_tipoUniao")
     private TipoUniao tipoUniao;
+
+    @OneToOne
+    @JoinColumn(name = "id_marido")
+    private PessoaFisica marido;
+
+    @OneToOne
+    @JoinColumn(name = "id_esposa")
+    private PessoaFisica esposa;
+
+    @OneToOne
+    @JoinColumn(name = "id_endereco")
+    private Endereco endereco;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "casal")
+    private List<Filho> filhos = new ArrayList<>();
 }

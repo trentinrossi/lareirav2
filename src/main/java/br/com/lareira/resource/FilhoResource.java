@@ -11,7 +11,7 @@ import br.com.lareira.model.Filho;
 import br.com.lareira.service.FilhoService;
 
 @RestController
-@RequestMapping(value = "/casais")
+@RequestMapping(value = "/filhos")
 public class FilhoResource {
 
     @Autowired
