@@ -2,6 +2,8 @@ package br.com.lareira.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
@@ -55,4 +59,8 @@ public class Casal implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_lareira")
     private Lareira lareira;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "casal") // Nome do atributo do outro lado
+    private List<Filho> filhos = new ArrayList<>();
 }

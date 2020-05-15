@@ -7,6 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
@@ -22,4 +26,9 @@ public class Filho implements Serializable {
     private String nome;
     private String sexo;
     private LocalDate dataNascimento;
+    
+    @JsonManagedReference
+    @ManyToOne
+    @JoinColumn(name = "id_casal")
+    private Casal casal;
 }
