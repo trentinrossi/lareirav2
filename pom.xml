@@ -10,8 +10,8 @@
 	<groupId>br.com.lareira</groupId>
 	<artifactId>lareira-api-nelio</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
-	<description>Demo project for Spring Boot</description>
+	<name>Lareira</name>
+	<description>Gestão de Lareiras</description>
 
 	<properties>
 		<java.version>1.8</java.version>
