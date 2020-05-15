@@ -18,8 +18,8 @@ public class PessoaFisica implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
-    
+    private Long id;
+
     private String nome;
     private String sobrenome;
     private LocalDate dataNascimento;
