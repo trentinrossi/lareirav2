@@ -15,7 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
@@ -58,7 +57,7 @@ public class Casal implements Serializable {
     @JoinColumn(name = "id_endereco")
     private Endereco endereco;
 
-    @JsonBackReference
+    @JsonManagedReference
     @OneToMany(mappedBy = "casal")
     private List<Filho> filhos = new ArrayList<>();
 }
