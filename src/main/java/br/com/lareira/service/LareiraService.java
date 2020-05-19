@@ -16,7 +16,7 @@ public class LareiraService {
     private LareiraRepository repository;
 
     public Lareira buscar(Long id) {
-        Optional<Lareira> obj = repository.findById(id);
+        Optional<Lareira> obj = repository.findById(id);        
 
         // Isso vai fazer com que a classe ResourceExceptionHandler seja executada,
         // retornando o erro 404 para o cliente
