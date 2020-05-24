@@ -51,6 +51,13 @@
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
 
+		<!-- Necessário para realizar validações @Valid dentre outras -->
+		<!-- Apartir da versão 2.3 não estão mais disponíveis dentro de starter-web -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

@@ -29,4 +29,13 @@ public class TipoUniao implements Serializable {
     @JsonBackReference
     @OneToMany(mappedBy = "tipoUniao")
     private List<Casal> casais = new ArrayList<>();
+
+    public TipoUniao() {
+    }
+
+    public TipoUniao(Long id, String nome, String descricao) {
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;        
+    }
 }
