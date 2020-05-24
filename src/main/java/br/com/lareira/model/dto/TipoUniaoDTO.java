@@ -17,7 +17,7 @@ public class TipoUniaoDTO implements Serializable {
 
     private Long id;
 
-    @NotEmpty(message = "Nome é de preenchimento obrigatório")
+    @NotEmpty(message = "{validation.nome.NotEmpty}")
     private String nome;
     private String descricao;
 

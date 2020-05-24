@@ -32,7 +32,21 @@ public class Lareira implements Serializable {
     private String telefone;
 
     @JsonBackReference
-    @OneToMany(mappedBy = "lareira")    
+    @OneToMany(mappedBy = "lareira")
     private List<Casal> casais = new ArrayList<>();
 
+    public Lareira() {
+    }
+
+    public Lareira(Long id, String nome, String endereco, String bairro, String cep, String cidade, String estado,
+            String telefone) {
+        this.id = id;
+        this.nome = nome;
+        this.endereco = endereco;
+        this.bairro = bairro;
+        this.cep = cep;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.telefone = telefone;
+    }
 }

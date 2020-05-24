@@ -9,7 +9,10 @@ import lombok.Setter;
 
 // Classe criada na aula https://www.udemy.com/course/spring-boot-ionic/learn/lecture/8090544#overview
 // Serve como uma classe auxiliar para padronizar as mensagens
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter 
+@Setter 
+@NoArgsConstructor 
+@AllArgsConstructor
 public class StandardError implements Serializable {
 
     private static final long serialVersionUID = 1L;
