@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,9 +19,11 @@ import javax.persistence.OneToOne;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Casal implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,19 +48,35 @@ public class Casal implements Serializable {
     @JoinColumn(name = "id_tipoUniao")
     private TipoUniao tipoUniao;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_marido")
     private PessoaFisica marido;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_esposa")
     private PessoaFisica esposa;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_endereco")
     private Endereco endereco;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "casal")
     private List<Filho> filhos = new ArrayList<>();
+
+    public Casal(Long id, Integer numeroFicha, String foneFixo, LocalDate dataUniao, String memorando, byte[] foto,
+            Lareira lareira, TipoUniao tipoUniao, PessoaFisica marido, PessoaFisica esposa, Endereco endereco) {
+        this.id = id;
+        this.numeroFicha = numeroFicha;
+        this.foneFixo = foneFixo;
+        this.dataUniao = dataUniao;
+        this.memorando = memorando;
+        this.foto = foto;
+        this.lareira = lareira;
+        this.tipoUniao = tipoUniao;
+        this.marido = marido;
+        this.esposa = esposa;
+        this.endereco = endereco;
+    }
+
 }

@@ -56,7 +56,7 @@ public class LareiraService {
     }
 
     /**
-     * Insere um novo Tipo de União
+     * Insere uma nova Lareira
      * 
      * @param obj
      * @return
@@ -67,7 +67,7 @@ public class LareiraService {
     }
 
     /**
-     * Atualiza um Tipo de União já existente
+     * Atualiza uma Lareira já existente
      * 
      * @param obj
      * @return
@@ -78,7 +78,7 @@ public class LareiraService {
     }
 
     /**
-     * Deleta um tipo de união
+     * Deleta uma Lareira
      * 
      * @param id
      */

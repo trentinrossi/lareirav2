@@ -1,34 +1,30 @@
-package br.com.lareira.model;
+package br.com.lareira.model.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-@Entity
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
-public class PessoaFisica implements Serializable {
+public class PessoaFisicaDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @NotEmpty(message = "{validation.nome.NotEmpty}")
     private String nome;
     private String sobrenome;
     private LocalDate dataNascimento;
     private String profissao;
     private String telCelular;
+    @Email
     private String email;
     private String problemaSaude;
 }
