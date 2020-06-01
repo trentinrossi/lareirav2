@@ -48,9 +48,8 @@ public class CasalResource {
     }
 
     @PostMapping
-    public ResponseEntity<Void> insert(@Valid @RequestBody CasalDTO objDto) {        
-        Casal obj = service.fromDTO(objDto);
-        System.out.println(objDto);
+    public ResponseEntity<Void> insert(@Valid @RequestBody CasalDTO objDto) {                
+        Casal obj = service.fromDTO(objDto);                
         obj = service.insert(obj);        
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();                
         return ResponseEntity.created(uri).build();

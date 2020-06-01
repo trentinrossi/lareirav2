@@ -12,13 +12,12 @@ import org.springframework.stereotype.Service;
 
 import br.com.lareira.model.Casal;
 import br.com.lareira.model.Endereco;
+import br.com.lareira.model.Filho;
 import br.com.lareira.model.Lareira;
 import br.com.lareira.model.PessoaFisica;
 import br.com.lareira.model.TipoUniao;
 import br.com.lareira.model.dto.CasalDTO;
 import br.com.lareira.repository.CasalRepository;
-import br.com.lareira.repository.EnderecoRepository;
-import br.com.lareira.repository.PessoaFisicaRepository;
 import br.com.lareira.service.exceptions.DataIntegrityException;
 import br.com.lareira.service.exceptions.ObjectNotFoundException;
 
@@ -29,10 +28,10 @@ public class CasalService {
     private CasalRepository repository;
 
     @Autowired
-    private PessoaFisicaRepository repoPessoaFisica;
+    private LareiraService lareiraService;
 
     @Autowired
-    private EnderecoRepository repoEndereco;
+    private TipoUniaoService tipoUniaoService;
 
     /**
      * Método auxiliar para converter um objeto DTO para um objeto de instanciação
@@ -44,14 +43,15 @@ public class CasalService {
         Casal casal = new Casal(casalDto.getId(), casalDto.getNumeroFicha(), casalDto.getFoneFixo(),
                 casalDto.getDataUniao(), casalDto.getMemorando(), casalDto.getFoto(), null, null, null, null, null);
 
-        Lareira lareira = new Lareira(casalDto.getLareiraId(), null, null, null, null, null, null, null);
+        Lareira lareira = lareiraService.find(casalDto.getLareiraId());
 
-        TipoUniao tipoUniao = new TipoUniao(casalDto.getTipoUniaoId(), null, null);
+        TipoUniao tipoUniao = tipoUniaoService.find(casalDto.getTipoUniaoId());
 
         PessoaFisica marido = new PessoaFisica(casalDto.getMarido().getId(), casalDto.getMarido().getNome(),
                 casalDto.getMarido().getSobrenome(), casalDto.getMarido().getDataNascimento(),
                 casalDto.getMarido().getProblemaSaude(), casalDto.getMarido().getTelCelular(),
                 casalDto.getMarido().getEmail(), casalDto.getMarido().getProblemaSaude());
+
         PessoaFisica esposa = new PessoaFisica(casalDto.getEsposa().getId(), casalDto.getEsposa().getNome(),
                 casalDto.getEsposa().getSobrenome(), casalDto.getEsposa().getDataNascimento(),
                 casalDto.getEsposa().getProblemaSaude(), casalDto.getEsposa().getTelCelular(),
@@ -66,6 +66,14 @@ public class CasalService {
         casal.setMarido(marido);
         casal.setEsposa(esposa);
         casal.setEndereco(endereco);
+
+        // Lista de Filhos
+        if (casalDto.getFilhos() != null) {
+            casalDto.getFilhos().forEach(f -> {
+                Filho filho = new Filho(f.getId(), f.getNome(), f.getSexo(), f.getDataNascimento());
+                casal.addFilho(filho);
+            });
+        }
 
         return casal;
     }
@@ -105,12 +113,18 @@ public class CasalService {
      * @param obj
      * @return
      */
+    // @Transactional
     public Casal insert(Casal obj) {
         obj.setId(null);
         obj = repository.save(obj);
-        repoPessoaFisica.save(obj.getMarido());
-        repoPessoaFisica.save(obj.getEsposa());
-        repoEndereco.save(obj.getEndereco());
+        // repoPessoaFisica.save(obj.getMarido());
+        // repoPessoaFisica.save(obj.getEsposa());
+        // repoEndereco.save(obj.getEndereco());
+
+        // Não precisa salvar os filhos aqui novamente pois já estão serializados dentro
+        // do objeto Casal
+        // repoFilho.saveAll(obj.getFilhos());
+
         return obj;
     }
 
@@ -120,10 +134,18 @@ public class CasalService {
      * @param obj
      * @return
      */
-    public Casal update(Casal obj) {
-        Casal newObj = find(obj.getId());
-        BeanUtils.copyProperties(obj, newObj);
-        return repository.save(newObj);
+    public Casal update(Casal objNovo) {
+        Casal objGravado = find(objNovo.getId());        
+
+        // objGravado.getFilhos().clear();
+        // if (objNovo.getFilhos() != null) {
+        //     objGravado.getFilhos().addAll(objNovo.getFilhos());
+        //     objGravado.getFilhos().forEach(c -> c.setCasal(objGravado));
+        // }
+
+        BeanUtils.copyProperties(objNovo, objGravado);
+
+        return repository.save(objGravado);
     }
 
     /**
