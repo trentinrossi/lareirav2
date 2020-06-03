@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import br.com.lareira.model.Lareira;
 import br.com.lareira.model.dto.LareiraDTO;
 import br.com.lareira.repository.LareiraRepository;
+import br.com.lareira.service.exceptions.BadRequestIdException;
 import br.com.lareira.service.exceptions.DataIntegrityException;
 import br.com.lareira.service.exceptions.ObjectNotFoundException;
 
@@ -62,6 +63,9 @@ public class LareiraService {
      * @return
      */
     public Lareira insert(Lareira obj) {
+        if (obj.getId() != null) {
+            throw new BadRequestIdException("Para inserir um novo registro não deve ser informado o ID.");
+        }
         obj.setId(null);
         return repository.save(obj);
     }
@@ -73,6 +77,9 @@ public class LareiraService {
      * @return
      */
     public Lareira update(Lareira obj) {
+        if (obj.getId() == null) {
+            throw new BadRequestIdException("Obrigatório informar um ID para alterar o registro.");
+        }
         find(obj.getId());
         return repository.save(obj);
     }

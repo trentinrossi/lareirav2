@@ -2,6 +2,7 @@ package br.com.lareira.resource.exceptions;
 
 import javax.servlet.http.HttpServletRequest;
 
+import br.com.lareira.service.exceptions.BadRequestIdException;
 import br.com.lareira.service.exceptions.DataIntegrityException;
 import br.com.lareira.service.exceptions.ObjectNotFoundException;
 
@@ -63,6 +64,18 @@ public class ResourceExceptionHandler {
             err.addError(x.getField(), x.getDefaultMessage());            
 		}		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
-	}
+    }
 
+    /**
+     * Será invocada quando ocorrer alguma divergência nos ID's das entidades sendo passapara para INSERT ou UPDATE 
+     * Exemplo tirado do jHipster
+     * @param e
+     * @param request
+     * @return
+     */
+    @ExceptionHandler(BadRequestIdException.class)
+	public ResponseEntity<StandardError> badRequestId(BadRequestIdException e, HttpServletRequest request) {		
+        StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+    }
 }

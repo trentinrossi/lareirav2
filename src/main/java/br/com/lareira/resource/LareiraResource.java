@@ -4,6 +4,8 @@ import java.net.URI;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -26,18 +28,19 @@ import br.com.lareira.service.LareiraService;
 @RequestMapping(value = "/lareiras")
 public class LareiraResource {
 
+    private final Logger log = LoggerFactory.getLogger(LareiraResource.class);    
+
     @Autowired
     private LareiraService service;
 
     @GetMapping
-    public ResponseEntity<Page<Lareira>> findAll(
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
+    public ResponseEntity<Page<Lareira>> findAll(@RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
             @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
             @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
-        
+
         Page<Lareira> list = service.findAll(page, linesPerPage, orderBy, direction);
-        
+
         return ResponseEntity.ok().body(list);
     }
 
@@ -48,25 +51,26 @@ public class LareiraResource {
     }
 
     @PostMapping
-    public ResponseEntity<Void> insert(@Valid @RequestBody LareiraDTO objDto) {        
+    public ResponseEntity<Void> insert(@Valid @RequestBody LareiraDTO objDto) {
+        log.debug("REST request to save Lareira : {}", objDto);        
         Lareira obj = service.fromDTO(objDto);
-        obj = service.insert(obj);        
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();                
+        obj = service.insert(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
-    @PutMapping(value="/{id}")
-    public ResponseEntity<Lareira> update(@PathVariable Long id,@Valid @RequestBody LareiraDTO objDto) {         
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Lareira> update(@PathVariable Long id, @Valid @RequestBody LareiraDTO objDto) {
         Lareira obj = service.fromDTO(objDto);
         obj.setId(id);
         Lareira objSalvo = service.update(obj);
-        
+
         return ResponseEntity.ok(objSalvo);
     }
 
-    @DeleteMapping(value = "/{id}")    
-    public ResponseEntity<Lareira> delete(@PathVariable Long id) {        
-        service.delete(id); 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Lareira> delete(@PathVariable Long id) {
+        service.delete(id);
 
         return ResponseEntity.noContent().build();
     }
