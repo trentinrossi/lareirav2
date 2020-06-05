@@ -1,6 +1,8 @@
 package br.com.lareira.resource.exceptions;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import br.com.lareira.service.exceptions.BadRequestIdException;
 import br.com.lareira.service.exceptions.DataIntegrityException;
@@ -63,6 +65,25 @@ public class ResourceExceptionHandler {
 		for (FieldError x : e.getBindingResult().getFieldErrors()) {
             err.addError(x.getField(), x.getDefaultMessage());            
 		}		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+    }
+
+    /**
+     * Será invocada quando ocorrer algum erro de validação das classes @Valid    
+     * https://github.com/trentinrossi/springboot2-ionic-backend/commit/c94ece4ff848655d46bad861889d7332e9af885f
+     * https://www.udemy.com/course/spring-boot-ionic/learn/lecture/8186080#overview
+     * @param e
+     * @param request
+     * @return
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+	public ResponseEntity<StandardError> validation(ConstraintViolationException e, HttpServletRequest request) {
+
+		ValidationError err = new ValidationError(HttpStatus.BAD_REQUEST.value(), "Erro de validação", System.currentTimeMillis());        
+        
+        for (ConstraintViolation<?> violation : e.getConstraintViolations()) {
+            err.addError(violation.getPropertyPath().toString(), violation.getMessage());
+        }	
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
 

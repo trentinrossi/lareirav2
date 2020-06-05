@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotEmpty;
 
-import br.com.lareira.model.TipoUniao;
+// import br.com.lareira.model.TipoUniao;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,9 +21,9 @@ public class TipoUniaoDTO implements Serializable {
     private String nome;
     private String descricao;
 
-    public TipoUniaoDTO(TipoUniao obj) {
-        id = obj.getId();
-        nome = obj.getNome();
-        descricao = obj.getDescricao();
-    }
+    // public TipoUniaoDTO(TipoUniao obj) {
+    //     id = obj.getId();
+    //     nome = obj.getNome();
+    //     descricao = obj.getDescricao();
+    // }
 }

@@ -18,6 +18,7 @@ import br.com.lareira.model.PessoaFisica;
 import br.com.lareira.model.TipoUniao;
 import br.com.lareira.model.dto.CasalDTO;
 import br.com.lareira.repository.CasalRepository;
+import br.com.lareira.service.exceptions.BadRequestIdException;
 import br.com.lareira.service.exceptions.DataIntegrityException;
 import br.com.lareira.service.exceptions.ObjectNotFoundException;
 
@@ -115,6 +116,9 @@ public class CasalService {
      */
     // @Transactional
     public Casal insert(Casal obj) {
+        if (obj.getId() != null) {
+            throw new BadRequestIdException("Para inserir um novo registro não deve ser informado o ID.");
+        }
         obj.setId(null);
         obj = repository.save(obj);
         // repoPessoaFisica.save(obj.getMarido());
@@ -135,12 +139,15 @@ public class CasalService {
      * @return
      */
     public Casal update(Casal objNovo) {
-        Casal objGravado = find(objNovo.getId());        
+        if (objNovo.getId() == null) {
+            throw new BadRequestIdException("Obrigatório informar um ID para alterar o registro.");
+        }
+        Casal objGravado = find(objNovo.getId());
 
         // objGravado.getFilhos().clear();
         // if (objNovo.getFilhos() != null) {
-        //     objGravado.getFilhos().addAll(objNovo.getFilhos());
-        //     objGravado.getFilhos().forEach(c -> c.setCasal(objGravado));
+        // objGravado.getFilhos().addAll(objNovo.getFilhos());
+        // objGravado.getFilhos().forEach(c -> c.setCasal(objGravado));
         // }
 
         BeanUtils.copyProperties(objNovo, objGravado);

@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Positive;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,14 +21,16 @@ public class CasalDTO implements Serializable {
     private Long id;
     private Integer numeroFicha;
     private String foneFixo;
+    @Past
     private LocalDate dataUniao;
     private String memorando;
     private byte[] foto;
 
     @NotNull
+    @Positive
     private Long lareiraId;
     private Long tipoUniaoId;
-
+    
     private PessoaFisicaDTO marido;
     private PessoaFisicaDTO esposa;
     private EnderecoDTO endereco;

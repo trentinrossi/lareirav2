@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class FilhoOnlyDTO implements Serializable {
     private Long id;
     private String nome;
     private String sexo;
+    @Past
     private LocalDate dataNascimento;
     @NotNull
     private Long idCasal;

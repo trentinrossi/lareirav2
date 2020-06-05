@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,6 +25,7 @@ public class Filho implements Serializable {
     private Long id;
     private String nome;
     private String sexo;
+    @Past
     private LocalDate dataNascimento;
 
     @ManyToOne(optional = false)
