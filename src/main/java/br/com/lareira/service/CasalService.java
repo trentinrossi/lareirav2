@@ -44,6 +44,12 @@ public class CasalService {
         Casal casal = new Casal(casalDto.getId(), casalDto.getNumeroFicha(), casalDto.getFoneFixo(),
                 casalDto.getDataUniao(), casalDto.getMemorando(), casalDto.getFoto(), null, null, null, null, null);
 
+        Casal casalPadrinho = new Casal();
+        if (casalDto.getCasalPadrinhoId() != null) {
+            casalPadrinho = find(casalDto.getCasalPadrinhoId());
+            casal.setCasalPadrinho(casalPadrinho);
+        }
+
         Lareira lareira = lareiraService.find(casalDto.getLareiraId());
 
         TipoUniao tipoUniao = tipoUniaoService.find(casalDto.getTipoUniaoId());
@@ -66,7 +72,7 @@ public class CasalService {
         casal.setTipoUniao(tipoUniao);
         casal.setMarido(marido);
         casal.setEsposa(esposa);
-        casal.setEndereco(endereco);
+        casal.setEndereco(endereco);        
 
         // Lista de Filhos
         if (casalDto.getFilhos() != null) {

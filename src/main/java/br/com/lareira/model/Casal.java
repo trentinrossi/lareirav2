@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -58,6 +59,10 @@ public class Casal implements Serializable {
 
     @OneToMany(mappedBy = "casal", cascade = CascadeType.ALL)
     private List<Filho> filhos = new ArrayList<>();
+
+    @ManyToOne
+    @JsonIgnoreProperties("casalPadrinho")
+    private Casal casalPadrinho;
 
     public Casal() {
     }
@@ -233,6 +238,19 @@ public class Casal implements Serializable {
         return this;
     }
 
+    public void setCasalPadrinho(Casal casalPadrinho) {
+        this.casalPadrinho = casalPadrinho;
+    }
+
+    public Casal getCasalPadrinho() {
+        return this.casalPadrinho;
+    }
+
+    public Casal casalPadrinho(Casal casalPadrinho) {
+        this.casalPadrinho = casalPadrinho;
+        return this;
+    }
+
     public Casal addFilho(Filho filho) {
         this.filhos.add(filho);
         filho.setCasal(this);
@@ -266,7 +284,7 @@ public class Casal implements Serializable {
         return "{" + " id='" + getId() + "'" + ", numeroFicha='" + getNumeroFicha() + "'" + ", foneFixo='"
                 + getFoneFixo() + "'" + ", dataUniao='" + getDataUniao() + "'" + ", memorando='" + getMemorando() + "'"
                 + ", foto='" + getFoto() + "'" + ", lareira='" + getLareira().getNome() + "'" + ", tipoUniao='"
-                + getTipoUniao().getDescricao() + "'" + ", marido='" + getMarido() + "'" + ", esposa='" + getEsposa() + "'"
-                + ", endereco='" + getEndereco() + "'" + getFilhos() + "}";
+                + getTipoUniao().getDescricao() + "'" + ", marido='" + getMarido() + "'" + ", esposa='" + getEsposa()
+                + "'" + ", endereco='" + getEndereco() + "'" + getFilhos() + "}";
     }
 }

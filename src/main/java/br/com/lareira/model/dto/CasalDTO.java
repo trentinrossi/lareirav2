@@ -19,20 +19,30 @@ public class CasalDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+
     private Integer numeroFicha;
+
     private String foneFixo;
+
     @Past
     private LocalDate dataUniao;
+
     private String memorando;
+
     private byte[] foto;
 
     @NotNull
     @Positive
     private Long lareiraId;
+
     private Long tipoUniaoId;
-    
+
+    private Long casalPadrinhoId;
+
     private PessoaFisicaDTO marido;
+
     private PessoaFisicaDTO esposa;
+
     private EnderecoDTO endereco;
 
     private Set<FilhoDTO> filhos = new HashSet<>();

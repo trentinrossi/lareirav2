@@ -5,6 +5,7 @@ create table casal (
     foto longblob,
     memorando varchar(255),
     numero_ficha integer,
+    casal_padrinho_id bigint,
     id_endereco bigint,
     id_esposa bigint,
     id_lareira bigint,
