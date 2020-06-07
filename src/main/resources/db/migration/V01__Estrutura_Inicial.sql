@@ -1,3 +1,17 @@
+create table lareira (
+    id bigint not null auto_increment,
+    bairro varchar(255),
+    cep varchar(255),
+    cidade varchar(255),
+    endereco varchar(255),
+    estado varchar(255),
+    nome varchar(255),
+    telefone varchar(255),
+    primary key (id)
+) engine=MyISAM;
+
+INSERT INTO lareira (bairro, cep, cidade, endereco, estado, nome, telefone) VALUES ('São Cristóvão', '85.806-250', 'Cascavel', 'Av. Brasil', 'PR', 'Lareira São Cristóvão', '(45) 3326-0000');
+
 create table casal (
     id bigint not null auto_increment,
     data_uniao date,
@@ -31,18 +45,6 @@ create table filho (
     nome varchar(255),
     sexo varchar(255),
     id_casal bigint not null,
-    primary key (id)
-) engine=MyISAM;
-
-create table lareira (
-    id bigint not null auto_increment,
-    bairro varchar(255),
-    cep varchar(255),
-    cidade varchar(255),
-    endereco varchar(255),
-    estado varchar(255),
-    nome varchar(255),
-    telefone varchar(255),
     primary key (id)
 ) engine=MyISAM;
 
