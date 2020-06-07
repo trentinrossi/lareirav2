@@ -8,8 +8,8 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.lareira</groupId>
-	<artifactId>lareira-api-nelio</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>lareirav2</artifactId>
+	<version>1.0.0</version>
 	<name>Lareira</name>
 	<description>Gestão de Lareiras</description>
 
