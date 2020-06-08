@@ -36,7 +36,7 @@ public class Usuario implements Serializable {
     @NotNull
     @Size(min = 1, max = 255)
     private String login;
-
+    
     @Size(max = 255)
     private String senha;
 

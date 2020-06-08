@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.lareira.model.Usuario;
@@ -19,7 +20,10 @@ import br.com.lareira.service.exceptions.ObjectNotFoundException;
 public class UsuarioService {
 
     @Autowired
-    private UsuarioRepository repository;   
+    private UsuarioRepository repository;  
+    
+    @Autowired
+	private BCryptPasswordEncoder pe;
 
     /**
      * Lista todos os Usuarios com recurso de paginação
@@ -52,6 +56,10 @@ public class UsuarioService {
             throw new BadRequestIdException("Para inserir um novo usuário não deve ser informado o ID.");
         }
         obj.setId(null);
+
+        // Faz a encriptação da senha
+        obj.setSenha(pe.encode(obj.getSenha()));
+
         return repository.save(obj);
     }
 
