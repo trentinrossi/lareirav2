@@ -7,11 +7,15 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.lareira.model.Usuario;
+import br.com.lareira.model.enums.Perfil;
 import br.com.lareira.repository.UsuarioRepository;
+import br.com.lareira.security.UserDetailsImpl;
+import br.com.lareira.service.exceptions.AuthorizationException;
 import br.com.lareira.service.exceptions.BadRequestIdException;
 import br.com.lareira.service.exceptions.DataIntegrityException;
 import br.com.lareira.service.exceptions.ObjectNotFoundException;
@@ -40,9 +44,28 @@ public class UsuarioService {
     }
 
     public Usuario find(Long id) {
+
+        UserDetailsImpl user = authenticated();
+        if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+            throw new AuthorizationException("Acesso negado");
+        }
+
         Optional<Usuario> obj = repository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + Usuario.class.getName()));
+    }
+
+    /**
+     * Retorna um usuário logado
+     * @param obj
+     * @return
+     */
+    public static UserDetailsImpl authenticated() {
+        try {
+            return (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**

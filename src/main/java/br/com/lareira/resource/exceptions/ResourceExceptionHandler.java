@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import br.com.lareira.service.exceptions.AuthorizationException;
 import br.com.lareira.service.exceptions.BadRequestIdException;
 import br.com.lareira.service.exceptions.DataIntegrityException;
 import br.com.lareira.service.exceptions.ObjectNotFoundException;
@@ -98,5 +99,12 @@ public class ResourceExceptionHandler {
 	public ResponseEntity<StandardError> badRequestId(BadRequestIdException e, HttpServletRequest request) {		
         StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<StandardError> authorizarionException(AuthorizationException e, HttpServletRequest request) {
+        // Chamo a minha classe padrão dos erros
+        StandardError err = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err); // Retorna o response com o status 404 e o corpo da mensagem com o erro apresentado na mensagem
     }
 }
