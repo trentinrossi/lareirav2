@@ -1,9 +1,15 @@
 package br.com.lareira.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Basic;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +20,7 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.com.lareira.model.enums.Perfil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,7 +43,7 @@ public class Usuario implements Serializable {
     @NotNull
     @Size(min = 1, max = 255)
     private String login;
-    
+
     @Size(max = 255)
     private String senha;
 
@@ -49,8 +56,12 @@ public class Usuario implements Serializable {
 
     @Size(max = 100)
     private String descricao;
-    
+
     private Boolean ativo;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "PERFIS")
+    private Set<Integer> perfis = new HashSet<>();
 
     @JsonIgnore
     @Transient
@@ -58,4 +69,11 @@ public class Usuario implements Serializable {
         return !this.ativo;
     }
 
+    public Set<Perfil> getPerfis() {
+        return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+    }
+
+    public void addPerfil(Perfil perfil) {
+        perfis.add(perfil.getCod());
+    }
 }
