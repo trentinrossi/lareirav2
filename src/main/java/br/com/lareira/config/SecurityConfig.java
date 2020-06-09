@@ -19,6 +19,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import br.com.lareira.security.JWTAuthenticationFilter;
+import br.com.lareira.security.JWTAuthorizationFilter;
 import br.com.lareira.security.JWTUtil;
 
 @Configuration
@@ -64,8 +65,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers(PUBLIC_MATCHERS).permitAll()
             .anyRequest().authenticated(); // Qualquer outra deve estar autenticado
             
-        // Adiciona o filtro do usuário
+        // Adiciona o filtro de autenticação
         http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+        
+        // Adiciona o filtro de autorização
+        http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));        
 
         // Política de armazenamento das sessões, somente stateless
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
