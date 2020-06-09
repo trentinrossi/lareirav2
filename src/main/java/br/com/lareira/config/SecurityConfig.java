@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -24,6 +25,7 @@ import br.com.lareira.security.JWTUtil;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -36,13 +38,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JWTUtil jwtUtil;
 
 	private static final String[] PUBLIC_MATCHERS = {
-            "/h2-console/**",
-            "/usuarios/**"
+        "/h2-console/**"
 	};
 
+    // Retorna as URL's que são permitidas somente com o GET
 	private static final String[] PUBLIC_MATCHERS_GET = {
-			"/usuarios/**",
-			"/casais/**"
+    };
+    
+    // Retorna as URL's que são permitidas somente com o POST
+    private static final String[] PUBLIC_MATCHERS_POST = {
+        "usuarios/**"
     };
     
     // Vou dizer quem é o usuário e estamos autenticando e qual o algoritimo de codigicação da senha
@@ -61,6 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.cors().and().csrf().disable(); // Desabilita o CORS e o ataque CSRF (armazenamento de autenticação em Sessão, como nosso sistema é stateless então ele não armazena a sessão)
 		http.authorizeRequests()
+			.antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll() // Permite somente para chamadas POST
 			.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll() // Permite somente para chamadas GET
 			.antMatchers(PUBLIC_MATCHERS).permitAll()
             .anyRequest().authenticated(); // Qualquer outra deve estar autenticado

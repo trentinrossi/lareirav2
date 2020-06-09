@@ -4,6 +4,11 @@ INSERT INTO TIPO_UNIAO VALUES (null, 'Comunhão Total', 'Comunhão Total de Bens
 
 INSERT INTO LAREIRA VALUES (null, 'São Cristóvão','85.806-266','Cascavel','Av. Brasil, 226','PR','Lareira São Cristóvão','(45) 3326-9899');
 
+INSERT INTO USUARIO VALUES (null, 'TRUE', 'Usuário admin', 'admin@admin.com', 'admin', 'Admin', '$2a$10$JFjcPgiy/jvhq5vcqvfn.eoMK25cK/KCxSGBO98YRKRXKSbh/F4Ci');
+INSERT INTO USUARIO VALUES (null, 'TRUE', 'Usuário comun', 'comun@comun.com', 'comun', 'Comun', '$2a$10$JFjcPgiy/jvhq5vcqvfn.eoMK25cK/KCxSGBO98YRKRXKSbh/F4Ci');
+INSERT INTO PERFIS VALUES (1, 1);
+INSERT INTO PERFIS VALUES (2, 2);
+
 insert into PESSOA_FISICA (id, nome, sobrenome, data_Nascimento, profissao, tel_Celular, email, problema_Saude) values (1, 'Blakelee', 'Leedes', '2019-11-15', 'Payment Adjustment Coordinator', '(140) 7913002', 'bleedes0@goo.gl', 'adipiscing elit proin interdum mauris non ligula pellentesque ultrices phasellus id sapien in sapien iaculis congue vivamus metus');
 insert into PESSOA_FISICA (id, nome, sobrenome, data_Nascimento, profissao, tel_Celular, email, problema_Saude) values (2, 'Sande', 'Kimmins', '2019-08-17', 'Registered Nurse', '(232) 4101394', 'skimmins1@list-manage.com', 'nulla nunc purus phasellus in felis donec semper sapien a libero');
 insert into PESSOA_FISICA (id, nome, sobrenome, data_Nascimento, profissao, tel_Celular, email, problema_Saude) values (3, 'Dill', 'Braunton', '2020-02-07', 'Clinical Specialist', '(175) 2461730', 'dbraunton2@springer.com', 'libero ut massa volutpat convallis morbi odio odio elementum eu interdum');

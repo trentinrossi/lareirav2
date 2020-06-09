@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +33,7 @@ public class UsuarioResource {
     @Autowired
     private UsuarioService service;
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
     public ResponseEntity<Page<Usuario>> findAll(@RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
@@ -42,13 +44,13 @@ public class UsuarioResource {
 
         return ResponseEntity.ok().body(list);
     }
-
+    
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> find(@PathVariable Long id) {
         Usuario obj = service.find(id);
         return ResponseEntity.ok().body(obj);
     }
-
+    
     @PostMapping
     public ResponseEntity<Void> insert(@Valid @RequestBody Usuario obj) {
         log.debug("REST request to save Usuario : {}", obj);                
@@ -57,6 +59,7 @@ public class UsuarioResource {
         return ResponseEntity.created(uri).build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<Usuario> update(@PathVariable Long id, @Valid @RequestBody Usuario obj) {
         obj.setId(id);
@@ -65,6 +68,7 @@ public class UsuarioResource {
         return ResponseEntity.ok(objSalvo);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Usuario> delete(@PathVariable Long id) {
         service.delete(id);
