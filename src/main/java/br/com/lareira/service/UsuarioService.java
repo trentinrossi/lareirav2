@@ -97,6 +97,7 @@ public class UsuarioService {
             throw new BadRequestIdException("Obrigatório informar um ID para alterar o usuário.");
         }
         find(obj.getId());
+        obj.setSenha(pe.encode(obj.getSenha()));
         return repository.save(obj);
     }
 
@@ -114,4 +115,7 @@ public class UsuarioService {
         }
     }
 
+	public Usuario findByEmail(String email) {
+		return repository.findByEmail(email);
+	}
 }
