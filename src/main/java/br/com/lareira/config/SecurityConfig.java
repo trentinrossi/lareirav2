@@ -38,7 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JWTUtil jwtUtil;
 
 	private static final String[] PUBLIC_MATCHERS = {
-        "/h2-console/**"
+        "/h2-console/**",
+        "logout/**"
 	};
 
     // Retorna as URL's que são permitidas somente com o GET
@@ -47,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     // Retorna as URL's que são permitidas somente com o POST
     private static final String[] PUBLIC_MATCHERS_POST = {
-        "usuarios/**"
+        "/usuarios*"
     };
     
     // Vou dizer quem é o usuário e estamos autenticando e qual o algoritimo de codigicação da senha
@@ -65,11 +66,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         }
 
 		http.cors().and().csrf().disable(); // Desabilita o CORS e o ataque CSRF (armazenamento de autenticação em Sessão, como nosso sistema é stateless então ele não armazena a sessão)
-		http.authorizeRequests()
-			.antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll() // Permite somente para chamadas POST
-			.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll() // Permite somente para chamadas GET
-			.antMatchers(PUBLIC_MATCHERS).permitAll()
-            .anyRequest().authenticated(); // Qualquer outra deve estar autenticado
+		// http.cors().disable(); // Desabilita o CORS e o ataque CSRF (armazenamento de autenticação em Sessão, como nosso sistema é stateless então ele não armazena a sessão)
+        
+        http.authorizeRequests()
+			    .antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll() // Permite somente para chamadas POST
+			    .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll() // Permite somente para chamadas GET
+			    .antMatchers(PUBLIC_MATCHERS).permitAll()
+                .anyRequest().authenticated() // Qualquer outra deve estar autenticado
+            .and()
+                .logout()     
+                .logoutSuccessUrl("/login")           
+                .permitAll();
             
         // Adiciona o filtro de autenticação
         http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
