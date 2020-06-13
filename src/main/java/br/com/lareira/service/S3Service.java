@@ -28,16 +28,29 @@ public class S3Service {
     @Value("${s3.bucket}")
     private String bucketName;
 
-    public void uploadFile(String localFilePath) {
-        try {
-            File file = new File(localFilePath);
-            LOG.info("Iniciando upload...");
-            s3client.putObject(bucketName, "Teste.jpeg", file);
-        } catch (AmazonServiceException e) {
-            LOG.error("AmazonServiceException: " + e.getErrorMessage());
-            LOG.error("Codigo Erro: " + e.getErrorCode());
-        } catch (AmazonClientException e) {
-            LOG.error("AmazonClienteException: " + e.getMessage());
-        }
-    }
+    public URI uploadFile(MultipartFile multipartFile) {
+		try {
+			String fileName = multipartFile.getOriginalFilename(); // Extrai o nome do arquivo
+			InputStream is = multipartFile.getInputStream();
+			String contentType = multipartFile.getContentType();
+			return uploadFile(is, fileName, contentType);
+		} catch (IOException e) {
+            throw new RuntimeException("Erro de IO: "+e.getMessage());
+            // throw new FileException("Erro de IO: " + e.getMessage());
+		}
+	}
+
+    public URI uploadFile(InputStream is, String fileName, String contentType) {
+		try {
+			ObjectMetadata meta = new ObjectMetadata();
+			meta.setContentType(contentType);
+			LOG.info("Iniciando upload da imagem no AmazonS3...");
+			s3client.putObject(bucketName, fileName, is, meta);
+			LOG.info("Upload da imagem no AmazonS3 finalizado...");
+			return s3client.getUrl(bucketName, fileName).toURI();
+		} catch (URISyntaxException e) {
+            throw new RuntimeException("Erro de IO: "+e.getMessage());
+			// throw new FileException("Erro ao converter URL para URI");
+		}
+	}
 }

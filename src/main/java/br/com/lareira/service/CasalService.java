@@ -1,5 +1,6 @@
 package br.com.lareira.service;
 
+import java.net.URI;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.lareira.model.Casal;
 import br.com.lareira.model.Endereco;
@@ -33,6 +35,9 @@ public class CasalService {
 
     @Autowired
     private TipoUniaoService tipoUniaoService;
+
+    @Autowired
+    private S3Service s3Service;
 
     /**
      * Método auxiliar para converter um objeto DTO para um objeto de instanciação
@@ -72,7 +77,7 @@ public class CasalService {
         casal.setTipoUniao(tipoUniao);
         casal.setMarido(marido);
         casal.setEsposa(esposa);
-        casal.setEndereco(endereco);        
+        casal.setEndereco(endereco);
 
         // Lista de Filhos
         if (casalDto.getFilhos() != null) {
@@ -173,5 +178,14 @@ public class CasalService {
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityException("Não é possível excluir um Casal que possui filhos vinculados.");
         }
+    }
+
+    /**
+     * Realiza o upload da foto do casal
+     * @param file
+     * @return
+     */
+    public URI uploadFotoCasal(MultipartFile file) {
+        return s3Service.uploadFile(file);
     }
 }
