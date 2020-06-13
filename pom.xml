@@ -95,6 +95,13 @@
 			<version>LATEST</version>
 		</dependency>
 
+		<!-- Ajustar o tamanho das imagens -->
+		<dependency>
+			<groupId>org.imgscalr</groupId>
+			<artifactId>imgscalr-lib</artifactId>
+			<version>4.2</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

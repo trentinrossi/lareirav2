@@ -45,7 +45,10 @@ public class CasalService {
     private ImageService imageService;
 
     @Value("${img.prefix.client.profile}")
-	private String prefix;
+    private String prefix;
+    
+    @Value("${img.profile.size}")
+    private Integer size;
 
     /**
      * Método auxiliar para converter um objeto DTO para um objeto de instanciação
@@ -204,8 +207,8 @@ public class CasalService {
         // objGravado.setImageUrl(urlImagem.toString());
         // repository.save(objGravado);
         BufferedImage jpgImage = imageService.getJpgImageFromFile(file);
-        // jpgImage = imageService.cropSquare(jpgImage);
-		// jpgImage = imageService.resize(jpgImage, size);
+        jpgImage = imageService.cropSquare(jpgImage);
+		jpgImage = imageService.resize(jpgImage, size);
 		
 		String fileName = prefix + id + ".jpg";
 
