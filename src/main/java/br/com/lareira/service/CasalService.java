@@ -3,8 +3,10 @@ package br.com.lareira.service;
 import java.net.URI;
 import java.util.Optional;
 
+import java.awt.image.BufferedImage;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,6 +40,12 @@ public class CasalService {
 
     @Autowired
     private S3Service s3Service;
+
+    @Autowired
+    private ImageService imageService;
+
+    @Value("${img.prefix.client.profile}")
+	private String prefix;
 
     /**
      * Método auxiliar para converter um objeto DTO para um objeto de instanciação
@@ -181,7 +189,7 @@ public class CasalService {
     }
 
     /**
-     * Realiza o upload da foto do casal
+     * Realiza o upload da foto do casal, usa o padrão de nome conforme o prefixo + id .jpg
      * @param file
      * @return
      */
@@ -190,11 +198,17 @@ public class CasalService {
             throw new BadRequestIdException("Obrigatório informar o id do casal para realizar o upload da imagem.");
         }
         
-        Casal objGravado = find(id);
-        URI urlImagem = s3Service.uploadFile(file);
-        objGravado.setImageUrl(urlImagem.toString());
-        repository.save(objGravado);
+        // Caso a URL da imagem armazenada na AWS fosse gravada na tabela de casais
+        // Casal objGravado = find(id);
+        // URI urlImagem = s3Service.uploadFile(file);
+        // objGravado.setImageUrl(urlImagem.toString());
+        // repository.save(objGravado);
+        BufferedImage jpgImage = imageService.getJpgImageFromFile(file);
+        // jpgImage = imageService.cropSquare(jpgImage);
+		// jpgImage = imageService.resize(jpgImage, size);
+		
+		String fileName = prefix + id + ".jpg";
 
-        return urlImagem;
+        return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
     }
 }

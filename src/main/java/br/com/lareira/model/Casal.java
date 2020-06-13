@@ -12,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -32,9 +31,9 @@ public class Casal implements Serializable {
     private String foneFixo;
     private LocalDate dataUniao;
     private String memorando;
-    private String imageUrl;
-    @Lob
-    private byte[] foto;
+    // private String imageUrl;
+    // @Lob
+    // private byte[] foto;
 
     @JsonManagedReference
     @ManyToOne
@@ -68,13 +67,13 @@ public class Casal implements Serializable {
     public Casal() {
     }
 
-    public Casal(Long id, Integer numeroFicha, String foneFixo, LocalDate dataUniao, String memorando,
-            Lareira lareira, TipoUniao tipoUniao, PessoaFisica marido, PessoaFisica esposa, Endereco endereco) {
+    public Casal(Long id, Integer numeroFicha, String foneFixo, LocalDate dataUniao, String memorando, Lareira lareira,
+            TipoUniao tipoUniao, PessoaFisica marido, PessoaFisica esposa, Endereco endereco) {
         this.id = id;
         this.numeroFicha = numeroFicha;
         this.foneFixo = foneFixo;
         this.dataUniao = dataUniao;
-        this.memorando = memorando;        
+        this.memorando = memorando;
         this.lareira = lareira;
         this.tipoUniao = tipoUniao;
         this.marido = marido;
@@ -122,21 +121,21 @@ public class Casal implements Serializable {
         this.memorando = memorando;
     }
 
-    public String getImageUrl() {
-        return this.imageUrl;
-    }
+    // public String getImageUrl() {
+    // return this.imageUrl;
+    // }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+    // public void setImageUrl(String imageUrl) {
+    // this.imageUrl = imageUrl;
+    // }
 
-    public byte[] getFoto() {
-        return this.foto;
-    }
+    // public byte[] getFoto() {
+    // return this.foto;
+    // }
 
-    public void setFoto(byte[] foto) {
-        this.foto = foto;
-    }
+    // public void setFoto(byte[] foto) {
+    // this.foto = foto;
+    // }
 
     public Lareira getLareira() {
         return this.lareira;
@@ -211,10 +210,10 @@ public class Casal implements Serializable {
         return this;
     }
 
-    public Casal foto(byte[] foto) {
-        this.foto = foto;
-        return this;
-    }
+    // public Casal foto(byte[] foto) {
+    // this.foto = foto;
+    // return this;
+    // }
 
     public Casal lareira(Lareira lareira) {
         this.lareira = lareira;
@@ -291,8 +290,8 @@ public class Casal implements Serializable {
     public String toString() {
         return "{" + " id='" + getId() + "'" + ", numeroFicha='" + getNumeroFicha() + "'" + ", foneFixo='"
                 + getFoneFixo() + "'" + ", dataUniao='" + getDataUniao() + "'" + ", memorando='" + getMemorando() + "'"
-                + ", foto='" + getFoto() + "'" + ", lareira='" + getLareira().getNome() + "'" + ", tipoUniao='"
-                + getTipoUniao().getDescricao() + "'" + ", marido='" + getMarido() + "'" + ", esposa='" + getEsposa()
-                + "'" + ", endereco='" + getEndereco() + "'" + getFilhos() + "}";
+                + ", lareira='" + getLareira().getNome() + "'" + ", tipoUniao='" + getTipoUniao().getDescricao() + "'"
+                + ", marido='" + getMarido() + "'" + ", esposa='" + getEsposa() + "'" + ", endereco='" + getEndereco()
+                + "'" + getFilhos() + "}";
     }
 }
