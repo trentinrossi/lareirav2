@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import br.com.lareira.service.exceptions.FileException;
+
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
@@ -34,9 +36,8 @@ public class S3Service {
 			InputStream is = multipartFile.getInputStream();
 			String contentType = multipartFile.getContentType();
 			return uploadFile(is, fileName, contentType);
-		} catch (IOException e) {
-            throw new RuntimeException("Erro de IO: "+e.getMessage());
-            // throw new FileException("Erro de IO: " + e.getMessage());
+		} catch (IOException e) {            
+            throw new FileException("Erro de IO: " + e.getMessage());
 		}
 	}
 
@@ -48,9 +49,8 @@ public class S3Service {
 			s3client.putObject(bucketName, fileName, is, meta);
 			LOG.info("Upload da imagem no AmazonS3 finalizado...");
 			return s3client.getUrl(bucketName, fileName).toURI();
-		} catch (URISyntaxException e) {
-            throw new RuntimeException("Erro de IO: "+e.getMessage());
-			// throw new FileException("Erro ao converter URL para URI");
+		} catch (URISyntaxException e) {            
+			throw new FileException("Erro ao converter URL para URI");
 		}
 	}
 }
