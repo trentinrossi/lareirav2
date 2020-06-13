@@ -27,9 +27,7 @@ public class CasalDTO implements Serializable {
     @Past
     private LocalDate dataUniao;
 
-    private String memorando;
-
-    private byte[] foto;
+    private String memorando;    
 
     @NotNull
     @Positive

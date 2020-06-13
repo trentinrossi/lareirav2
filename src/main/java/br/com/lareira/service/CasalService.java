@@ -47,7 +47,7 @@ public class CasalService {
      */
     public Casal fromDTO(CasalDTO casalDto) {
         Casal casal = new Casal(casalDto.getId(), casalDto.getNumeroFicha(), casalDto.getFoneFixo(),
-                casalDto.getDataUniao(), casalDto.getMemorando(), casalDto.getFoto(), null, null, null, null, null);
+                casalDto.getDataUniao(), casalDto.getMemorando(), null, null, null, null, null);
 
         Casal casalPadrinho = new Casal();
         if (casalDto.getCasalPadrinhoId() != null) {
@@ -185,7 +185,16 @@ public class CasalService {
      * @param file
      * @return
      */
-    public URI uploadFotoCasal(MultipartFile file) {
-        return s3Service.uploadFile(file);
+    public URI uploadFotoCasal(MultipartFile file, Long id) {
+        if (id == null || id == 0) {
+            throw new BadRequestIdException("Obrigatório informar o id do casal para realizar o upload da imagem.");
+        }
+        
+        Casal objGravado = find(id);
+        URI urlImagem = s3Service.uploadFile(file);
+        objGravado.setImageUrl(urlImagem.toString());
+        repository.save(objGravado);
+
+        return urlImagem;
     }
 }

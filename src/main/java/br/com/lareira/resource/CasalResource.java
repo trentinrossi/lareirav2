@@ -72,9 +72,9 @@ public class CasalResource {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/foto")
-    public ResponseEntity<Void> uploadFoto(@RequestParam(name="file") MultipartFile file) {   
-        URI uri = service.uploadFotoCasal(file);        
+    @PostMapping("/uploadFoto/{id}")
+    public ResponseEntity<Void> uploadFoto(@RequestParam(name="file") MultipartFile file, @PathVariable Long id) {   
+        URI uri = service.uploadFotoCasal(file, id);        
         return ResponseEntity.created(uri).build();
     }   
 }

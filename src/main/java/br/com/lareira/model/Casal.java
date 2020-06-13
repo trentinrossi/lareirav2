@@ -32,6 +32,7 @@ public class Casal implements Serializable {
     private String foneFixo;
     private LocalDate dataUniao;
     private String memorando;
+    private String imageUrl;
     @Lob
     private byte[] foto;
 
@@ -67,14 +68,13 @@ public class Casal implements Serializable {
     public Casal() {
     }
 
-    public Casal(Long id, Integer numeroFicha, String foneFixo, LocalDate dataUniao, String memorando, byte[] foto,
+    public Casal(Long id, Integer numeroFicha, String foneFixo, LocalDate dataUniao, String memorando,
             Lareira lareira, TipoUniao tipoUniao, PessoaFisica marido, PessoaFisica esposa, Endereco endereco) {
         this.id = id;
         this.numeroFicha = numeroFicha;
         this.foneFixo = foneFixo;
         this.dataUniao = dataUniao;
-        this.memorando = memorando;
-        this.foto = foto;
+        this.memorando = memorando;        
         this.lareira = lareira;
         this.tipoUniao = tipoUniao;
         this.marido = marido;
@@ -120,6 +120,14 @@ public class Casal implements Serializable {
 
     public void setMemorando(String memorando) {
         this.memorando = memorando;
+    }
+
+    public String getImageUrl() {
+        return this.imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public byte[] getFoto() {
