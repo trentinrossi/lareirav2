@@ -50,7 +50,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String username = ((UserDetailsImpl) auth.getPrincipal()).getUsername();
         String token = jwtUtil.generateToken(username);
         res.addHeader("Authorization", "Bearer " + token);
-        // res.addHeader("access-control-expose-headers", "Authorization");
+        res.addHeader("access-control-expose-headers", "Authorization"); // https://www.udemy.com/course/spring-boot-ionic/learn/lecture/8891774#overview
     }
 
     private class JWTAuthenticationFailureHandler implements AuthenticationFailureHandler {

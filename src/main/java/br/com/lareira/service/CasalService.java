@@ -21,6 +21,7 @@ import br.com.lareira.model.Lareira;
 import br.com.lareira.model.PessoaFisica;
 import br.com.lareira.model.TipoUniao;
 import br.com.lareira.model.dto.CasalDTO;
+import br.com.lareira.model.enums.Estado;
 import br.com.lareira.repository.CasalRepository;
 import br.com.lareira.service.exceptions.BadRequestIdException;
 import br.com.lareira.service.exceptions.DataIntegrityException;
@@ -82,7 +83,7 @@ public class CasalService {
 
         Endereco endereco = new Endereco(casalDto.getEndereco().getId(), casalDto.getEndereco().getCep(),
                 casalDto.getEndereco().getRua(), casalDto.getEndereco().getNumero(), casalDto.getEndereco().getBairro(),
-                casalDto.getEndereco().getCidade(), casalDto.getEndereco().getEstado());
+                casalDto.getEndereco().getCidade(), Estado.toEnum(casalDto.getEndereco().getEstado()));
 
         casal.setLareira(lareira);
         casal.setTipoUniao(tipoUniao);

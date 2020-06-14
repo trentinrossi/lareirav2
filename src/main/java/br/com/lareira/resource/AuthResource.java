@@ -24,7 +24,7 @@ public class AuthResource {
         UserDetailsImpl user = UsuarioService.authenticated();
         String token = jwtUtil.generateToken(user.getUsername());
         response.addHeader("Authorization", "Bearer " + token);
-        response.addHeader("access-control-expose-headers", "Authorization");
+        response.addHeader("access-control-expose-headers", "Authorization"); // https://www.udemy.com/course/spring-boot-ionic/learn/lecture/8891774#overview
         return ResponseEntity.noContent().build();
     }
 }
