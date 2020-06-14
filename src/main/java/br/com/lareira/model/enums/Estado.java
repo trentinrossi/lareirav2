@@ -57,6 +57,6 @@ public enum Estado {
 			}
 		}
 		
-		throw new IllegalArgumentException("Sigla inválida: " + sigla);
+		throw new IllegalArgumentException("Sigla do estado inválida: " + sigla);
 	}
 }
