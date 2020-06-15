@@ -4,8 +4,8 @@ INSERT INTO TIPO_UNIAO VALUES (null, 'Comunhão Total', 'Comunhão Total de Bens
 
 INSERT INTO LAREIRA VALUES (null, 'São Cristóvão','85.806-266','Cascavel','Av. Brasil, 226','PR','Lareira São Cristóvão','(45) 3326-9899');
 
-INSERT INTO USUARIO VALUES (null, 'TRUE', 'Usuário admin', 'admin@admin.com', 'admin', 'Admin', '$2a$10$JFjcPgiy/jvhq5vcqvfn.eoMK25cK/KCxSGBO98YRKRXKSbh/F4Ci');
-INSERT INTO USUARIO VALUES (null, 'TRUE', 'Usuário comun', 'comun@comun.com', 'comun', 'Comun', '$2a$10$JFjcPgiy/jvhq5vcqvfn.eoMK25cK/KCxSGBO98YRKRXKSbh/F4Ci');
+INSERT INTO USUARIO VALUES (null, 'TRUE', 'Usuário admin', 'admin@lareira.com', 'admin', 'Admin', '$2a$10$JFjcPgiy/jvhq5vcqvfn.eoMK25cK/KCxSGBO98YRKRXKSbh/F4Ci');
+INSERT INTO USUARIO VALUES (null, 'TRUE', 'Usuário Lareira Cascavel', 'cascavelsc@lareira.com', 'cascavelsc', 'Lareira Casvavel', '$2a$10$JFjcPgiy/jvhq5vcqvfn.eoMK25cK/KCxSGBO98YRKRXKSbh/F4Ci');
 INSERT INTO PERFIS VALUES (1, 1);
 INSERT INTO PERFIS VALUES (2, 2);
 
