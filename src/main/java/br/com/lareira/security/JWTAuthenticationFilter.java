@@ -51,6 +51,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String token = jwtUtil.generateToken(username);
         res.addHeader("Authorization", "Bearer " + token);
         res.addHeader("access-control-expose-headers", "Authorization"); // https://www.udemy.com/course/spring-boot-ionic/learn/lecture/8891774#overview
+        
+        // Adicionando o token no body da resposta para ficar mais fácil de pegar no frontend
+        // res.setContentType("application/json");
+        // res.setCharacterEncoding("UTF-8");
+        // res.getWriter().write("{\"jsonToken\": \""+token+"\"}");        
     }
 
     private class JWTAuthenticationFailureHandler implements AuthenticationFailureHandler {

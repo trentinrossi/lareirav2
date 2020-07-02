@@ -28,7 +28,7 @@ import br.com.lareira.service.UsuarioService;
 @RequestMapping(value = "/usuarios")
 public class UsuarioResource {
 
-    private final Logger log = LoggerFactory.getLogger(UsuarioResource.class);    
+    private final Logger log = LoggerFactory.getLogger(UsuarioResource.class);
 
     @Autowired
     private UsuarioService service;
@@ -44,16 +44,22 @@ public class UsuarioResource {
 
         return ResponseEntity.ok().body(list);
     }
-    
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> find(@PathVariable Long id) {
         Usuario obj = service.find(id);
         return ResponseEntity.ok().body(obj);
     }
-    
+
+    @GetMapping(value = "/email")
+    public ResponseEntity<?> findByEmail(@RequestParam(value = "value") String email) {
+        Usuario obj = service.findByEmail(email);
+        return ResponseEntity.ok().body(obj);
+    }
+
     @PostMapping
     public ResponseEntity<Void> insert(@Valid @RequestBody Usuario obj) {
-        log.debug("REST request to save Usuario : {}", obj);                
+        log.debug("REST request to save Usuario : {}", obj);
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
