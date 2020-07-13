@@ -47,7 +47,7 @@ public class CasalService {
 
     @Value("${img.prefix.client.profile}")
     private String prefix;
-    
+
     @Value("${img.profile.size}")
     private Integer size;
 
@@ -111,9 +111,19 @@ public class CasalService {
      * @param direction
      * @return
      */
-    public Page<Casal> findAll(Integer page, Integer linesPerPage, String orderBy, String direction) {
+    public Page<Casal> findAll(Integer page, Integer linesPerPage, String orderBy, String direction,
+            String globalFilter) {
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-        return repository.findAll(pageRequest);
+        System.out.println("Filtro GLOBAL: " + globalFilter);
+
+        if (globalFilter.isEmpty()) {
+            return repository.findAll(pageRequest);
+        } else {
+            return repository
+                    .findByMaridoNomeContainingOrMaridoSobrenomeContainingOrEsposaNomeContainingOrEsposaSobrenomeContaining(
+                            globalFilter, globalFilter, globalFilter, globalFilter, pageRequest);
+        }
+
     }
 
     /**
@@ -193,7 +203,9 @@ public class CasalService {
     }
 
     /**
-     * Realiza o upload da foto do casal, usa o padrão de nome conforme o prefixo + id .jpg
+     * Realiza o upload da foto do casal, usa o padrão de nome conforme o prefixo +
+     * id .jpg
+     * 
      * @param file
      * @return
      */
@@ -201,7 +213,7 @@ public class CasalService {
         if (id == null || id == 0) {
             throw new BadRequestIdException("Obrigatório informar o id do casal para realizar o upload da imagem.");
         }
-        
+
         // Caso a URL da imagem armazenada na AWS fosse gravada na tabela de casais
         // Casal objGravado = find(id);
         // URI urlImagem = s3Service.uploadFile(file);
@@ -209,9 +221,9 @@ public class CasalService {
         // repository.save(objGravado);
         BufferedImage jpgImage = imageService.getJpgImageFromFile(file);
         jpgImage = imageService.cropSquare(jpgImage);
-		jpgImage = imageService.resize(jpgImage, size);
-		
-		String fileName = prefix + id + ".jpg";
+        jpgImage = imageService.resize(jpgImage, size);
+
+        String fileName = prefix + id + ".jpg";
 
         return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
     }

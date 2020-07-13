@@ -35,9 +35,10 @@ public class CasalResource {
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
             @RequestParam(value = "orderBy", defaultValue = "id") String orderBy,
-            @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+            @RequestParam(value = "direction", defaultValue = "ASC") String direction,
+            @RequestParam(value = "globalFilter", defaultValue = "") String globalFilter) {
         
-        Page<Casal> list = service.findAll(page, linesPerPage, orderBy, direction);
+        Page<Casal> list = service.findAll(page, linesPerPage, orderBy, direction, globalFilter);
         
         return ResponseEntity.ok().body(list);
     }
