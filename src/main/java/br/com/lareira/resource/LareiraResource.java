@@ -24,6 +24,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.com.lareira.model.Lareira;
 import br.com.lareira.model.dto.LareiraDTO;
 import br.com.lareira.service.LareiraService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping(value = "/lareiras")
@@ -34,7 +37,8 @@ public class LareiraResource {
     @Autowired
     private LareiraService service;
     
-    @GetMapping
+    @ApiOperation(value = "Retorna todas as lareiras cadastradas com paginação")    
+    @GetMapping    
     public ResponseEntity<Page<Lareira>> findAll(@RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
             @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
@@ -71,6 +75,10 @@ public class LareiraResource {
         return ResponseEntity.ok(objSalvo);
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(code = 400, message = "Não é possível excluir uma Lareira que possua casais vinculados"),
+        @ApiResponse(code = 404, message = "Lareira não encontrada")
+    })
     @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Lareira> delete(@PathVariable Long id) {
